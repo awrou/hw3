@@ -3,6 +3,7 @@
 import functions as F
 import numpy as N
 import unittest
+import math
 
 class TestFunctions(unittest.TestCase):
     def testApproxJacobian1(self):
@@ -25,13 +26,7 @@ class TestFunctions(unittest.TestCase):
         self.assertEqual(Df_x.shape, (2,2))
         N.testing.assert_array_almost_equal(Df_x, A)
 
-    def testPolynomial(self):
-        # p(x) = x^2 + 2x + 3
-        p = F.Polynomial([1, 2, 3])
-        for x in N.linspace(-2,2,11):
-            self.assertEqual(p(x), x**2 + 2*x + 3)
-            
-    # Checking in higher dimension
+         # Checking in higher dimension
     def testApproxJacobian3(self):
         A = N.matrix("1. 2. 7; 3. 4. 9; 3. 5. 1")
         def f(x):
@@ -41,6 +36,22 @@ class TestFunctions(unittest.TestCase):
         Df_x = F.ApproximateJacobian(f, x0, dx)
         self.assertEqual(Df_x.shape, (3,3))
         N.testing.assert_array_almost_equal(Df_x, A)
+
+    def testPolynomial(self):
+        # p(x) = x^2 + 2x + 3
+        p = F.Polynomial([1, 2, 3])
+        for x in N.linspace(-2,2,11):
+            self.assertEqual(p(x), x**2 + 2*x + 3)
+
+#    def testAnalyticJacobi(self):
+
+    def testLogarithmic(self):
+        e = F.Logarithmic([4, 6, 3])
+        for x in N.linspace(2,3,11):
+            self.assertEqual(e(x), 4*N.log(6*x)+3)
+        
+            
+   
 
 if __name__ == '__main__':
     unittest.main()
