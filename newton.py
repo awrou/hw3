@@ -30,6 +30,8 @@ class Newton(object):
             x = self.step(x, fx)
             if N.linalg.norm(x-x0) > self._mRange:
                 raise ValueError("Root guess x0 out of range")
+        if N.linalg.norm(fx) > self._tol:
+            raise ValueError("Failed to converge after iteration %d" % self._maxiter)
         return x
 
     def step(self, x, fx=None):

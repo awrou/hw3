@@ -30,6 +30,17 @@ class TestFunctions(unittest.TestCase):
         p = F.Polynomial([1, 2, 3])
         for x in N.linspace(-2,2,11):
             self.assertEqual(p(x), x**2 + 2*x + 3)
+            
+    # Checking in higher dimension
+    def testApproxJacobian3(self):
+        A = N.matrix("1. 2. 7; 3. 4. 9; 3. 5. 1")
+        def f(x):
+            return A * x
+        x0 = N.matrix("5; 6; 9")
+        dx = 1.e-6
+        Df_x = F.ApproximateJacobian(f, x0, dx)
+        self.assertEqual(Df_x.shape, (3,3))
+        N.testing.assert_array_almost_equal(Df_x, A)
 
 if __name__ == '__main__':
     unittest.main()
