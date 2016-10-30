@@ -13,8 +13,8 @@ class TestNewton(unittest.TestCase):
         x = solver.solve(2.0)
         self.assertEqual(x,-2.0)
 
-    def testQuad(self):
-        f = lambda x : x**2 + 3*x + 2
+    def testPoly(self):
+        f = F.Polynomial([1,3,2])
         solver = newton.Newton(f, tol=1.e-15, maxiter=20)
         x = solver.solve(-3.0)
         self.assertAlmostEqual(x,-2.0)
@@ -49,22 +49,37 @@ class TestNewton(unittest.TestCase):
 
         #Test convergence exception
     def testConverge(self):
-        f = lambda x: x*x-1
+        f = F.Polynomial([1,0,-1])
         solver = newton.Newton(f,tol=1.e-15, maxiter=3)
-        x = solver.solve(0.5)
+        x = solver.solve(2.0)
         self.assertEqual(x, 1.0)
 
         #Test that it moves toward root convergence for a single step
         #Note that this will fail to converge and therefore raise a value error
-#    def testSingleStep(self):
-#        f = lambda x : 4*x**2-4
-#        solver =  newton.Newton(f, tol=1.e-15, maxiter=1)
-#        x0 = 1.5
-#        x = solver.solve(x0)
-#        self.assertTrue(abs(-1-x)<abs(-1-x0))
+    def testSingleStep(self):
+        f = lambda x : 4*x**2-4
+        solver =  newton.Newton(f, tol=1.e-15, maxiter=1)
+        x0 = 1.5
+        x = solver.solve(x0)
+        self.assertTrue(abs(-1-x)<abs(-1-x0))
 
+    def test2dimApprox(self):
+#        A = N.matrix("1. 2.; 3. 4.")
+#        def f(x):
+#            return A * x
+        f = lambda x: N.matrix([[5*x[0,0]-2*x[1,0]-13],[2*x[0,0]+x[1,0]-7]])
+        solver = newton.Newton(f, tol=1.e-8, maxiter=20)
+        x0 = N.matrix([[4],[2]])
+        x = solver.solve(x0)
+        N.testing.assert_array_almost_equal(x, N.matrix([[3.],[1.]]))
 
-
+    def test2dimAnalyt(self):
+        f = lambda x: N.matrix([[5*x[0,0]-2*x[1,0]-13],[2*x[0,0]+x[1,0]-7]])
+        _Df = lambda x: N.matrix([[5,-2],[2, 1]])
+        solver = newton.Newton(f, tol=1.e-8, maxiter=20, Df=_Df)
+        x0 = N.matrix([[4],[2]])
+        x = solver.solve(x0)
+        N.testing.assert_array_almost_equal(x, N.matrix([[3.],[1.]]))
         
 if __name__ == "__main__":
     unittest.main()

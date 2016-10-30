@@ -1,0 +1,75 @@
+Root finding and automated testing
+
+These files contains Newtons Method for approximating the root of a function.
+
+Files:
+
+newton.py
+functions.py
+testNewton.py
+testFunctions.py
+README
+____________________________________
+
+newton.py:
+
+Contains the class Newton. The class returns a new object to find roots of f(x) = 0 using Newton's method.
+
+Inputs:
+        tol:     tolerance for iteration (iterate until |f(x)| < tol)
+        maxiter: maximum number of iterations to perform
+        dx:      step size for computing approximate Jacobianc
+	Df:      analytical jacobian function if available
+	mRange:  max radius/range away from root
+
+Exceptions:
+	1. if root guess x0 is out of range an error will be raised
+	2. if it fails to converge withing maxiter and error will be raised
+________________________________________
+
+functions.py
+
+Contains various classes of functions for use with the Newton method. The mostimportant one being the ApproximateJacobian.
+
+Classes:
+	ApproximateJacobian: Returns an approximation of the Jacobian Df(x) as a numpy matrix
+	Polynomial: Returns a  polynomial object
+	Logarithmic: Returns a logarithmic object
+	Exponential: Returns an exponential object
+_______________________________________
+
+testFunctions.py
+
+Contains the class TestFunctions which holds tests for testing of implemented functions in functions.py.
+
+Tests:
+	 testApproxJacobian1: Tests the approximate jacobian in 1D
+	 testApproxJacobian2: Tests the approximate jacobian in 2D
+	 testApproxJacobian3: Tests the approximate jacobian in 3D
+	 testPolynomial     : Tests the polynomial function
+	 testLogarithmic    : Tests the logarithmic function
+	 testExponential    : Tests the exponential function
+	 testAnalyticAccu   : Tests the accuracy of an self-determined analytic Jacobian by comparison to the approximate
+
+____________________________________
+
+testNewton.py
+
+Contains the class TestNewton. This contains several tests for Newton class in newton.py
+
+Tests:
+	testLinear             : tests root finding of a 1D linear function
+	testPoly               : tests root finding of a polynomial
+	testmRangeExcp         : tests if Newton raises a mRange Exception
+	testAnalyticJacobiPoly : tests root find analytical Jacobi for a poly
+	testConverge           : tests convergence exception
+	testSingleStep         : verifies a single step is doing as expected
+	test2dimApprox         : tests a 2D root find using ApproxJacobi
+	test2dimAnaly          : tests a 2D root find using analytical Jacobi
+
+___________________________________
+
+
+		 
+
+

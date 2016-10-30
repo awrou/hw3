@@ -46,9 +46,14 @@ class TestFunctions(unittest.TestCase):
 #    def testAnalyticJacobi(self):
 
     def testLogarithmic(self):
-        e = F.Logarithmic([4, 6, 3])
+        l = F.Logarithmic([4, 6, 3])
         for x in N.linspace(2,3,11):
-            self.assertEqual(e(x), 4*N.log(6*x)+3)
+            self.assertEqual(l(x), 4*N.log(6*x)+3)
+
+    def testExponential(self):
+        e = F.Exponential([2, 2, -1])
+        for x in N.linspace(2,3,11):
+            self.assertEqual(e(x), 2*N.exp(2*x)-1)
 
     def testAnalyticAccu(self):
         slope = 3.0
