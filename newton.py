@@ -27,11 +27,12 @@ class Newton(object):
             fx = self._f(x)
             if N.linalg.norm(fx) < self._tol:
                 return x
-            x = self.step(x, fx)
+            else:
+                x = self.step(x, fx)
             if N.linalg.norm(x-x0) > self._mRange:
                 raise ValueError("Root guess x0 out of range")
         if N.linalg.norm(fx) > self._tol:
-            raise ValueError("Failed to converge after iteration %d" % self._maxiter)
+            raise ValueError("Failed to converge after maxiter=%d" % self._maxiter)
         return x
 
     def step(self, x, fx=None):
@@ -39,9 +40,9 @@ class Newton(object):
         If the argument fx is provided, assumes fx = f(x)"""
         if fx is None:
             fx = self._f(x)
-        if self._Df:
-            Df_x = self._Df
+        if self._Df != None:
+            Df_x = self._Df(x)
         else:
             Df_x = F.ApproximateJacobian(self._f, x, self._dx)
-            h = N.linalg.solve(N.matrix(Df_x), N.matrix(fx))
+        h = N.linalg.solve(N.matrix(Df_x), N.matrix(fx))
         return x - h

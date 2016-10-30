@@ -49,12 +49,21 @@ class TestFunctions(unittest.TestCase):
         e = F.Logarithmic([4, 6, 3])
         for x in N.linspace(2,3,11):
             self.assertEqual(e(x), 4*N.log(6*x)+3)
-        
-            
-   
 
+    def testAnalyticAccu(self):
+        slope = 3.0
+        def f(x):
+            return slope * x + 5.0 #Write desired function here
+        x0 = 2.0
+        dx = 1.e-3
+        DfApprox = F.ApproximateJacobian(f, x0, dx)
+        DfAnalytic = slope #Write analytical Jacobian here
+        self.assertAlmostEqual(DfAnalytic,DfApprox)
+        
 if __name__ == '__main__':
     unittest.main()
+
+    
 
 
 

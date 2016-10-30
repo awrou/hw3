@@ -39,15 +39,20 @@ class Polynomial(object):
         return self.f(x)
 
 class Logarithmic(object):
+    """Callable logarithmic object. """   
     def __init__(self, coeffs):
         self._coeffs = coeffs
 
-    def __repr__(self):
-        return "Logarithmic function c1*log(c2*x)+c3"
+#    def __repr__(self):
+#        return "Logarithmic function c1*log(c2*x)+c3"
 
     def f(self,x):
-        return self._coeffs[0]*N.log(self._coeffs[1]*x)+self._coeffs[2]
-
+        #print(self._coeffs[0])
+        a = self._coeffs[0]
+        b = self._coeffs[1]
+        c = self._coeffs[2] 
+        return (a*N.log(b*x)+c)
+    
     def __call__(self, x):
         return self.f(x)
 
